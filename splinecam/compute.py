@@ -81,7 +81,7 @@ def to_next_layer_partition_batched(cycles, Abw, current_layer, NN,
     mask[:,(ends-1)[:-1]] = False
     
     if mask.sum() == 0:
-        print('no intersections')
+        #print('no intersections')
         return 
     
 #     del  q
@@ -96,7 +96,7 @@ def to_next_layer_partition_batched(cycles, Abw, current_layer, NN,
     
     ## query hyps, only get rows which intersect, create idx map
     inter_hyps_idx = torch.unique(hyp_vert_cyc_idx[:,0])
-    print(inter_hyps_idx)
+    #print(inter_hyps_idx)
     hyps = NN.layers[current_layer].get_weights(row_idx=inter_hyps_idx).cpu()
     hyp_idx_map = torch.ones(n_hyps,dtype=torch.int64)*(hyps.shape[0]+100) ## initialize with idx out of range
     hyp_idx_map[inter_hyps_idx] = torch.arange(hyps.shape[0], dtype=torch.int64)
@@ -152,7 +152,7 @@ def get_partitions_with_db(
 
 
     for current_layer in range(1,len(NN.layers)-1):
-        print(f'Current layer {current_layer}')
+        #print(f'Current layer {current_layer}')
 
         out_cyc,out_idx = graph.to_next_layer_partition_batched(
             cycles = out_cyc,
@@ -220,7 +220,7 @@ def get_partitions_with_db(
         del Wb, out_Abw
 
     elapsed_time = time.time()-start_time
-    print(f'Time elapsed {elapsed_time/60:.3f} minutes')
+    #print(f'Time elapsed {elapsed_time/60:.3f} minutes')
     
     try:
         hyp2input,endpoints = to_next_layer_partition_batched(out_cyc, Abw, -1, NN,
